@@ -44,3 +44,17 @@ router.get("/:id/tracks", async (req, res) => {
     return res.status(404).send(`Tracks with Playlist #${id} does not exist.`);
   res.send(tracks);
 });
+
+router.post("/:id/tracks", async (req, res) => {
+  const { id } = req.params;
+  const playlist = await getPlaylistById(id);
+  if (!playlist) return res.status(404).send("Playlist not found.");
+
+  if (!req.body) return res.status(400).send("Request body is required.");
+
+  const { trackId } = req.body;
+  if (!trackId) return res.status(400).send("Request body requires: trackId");
+
+  const playlistTrack = await createPlaylistTrack(id, trackId);
+  res.status(201).send(playlistTrack);
+});
