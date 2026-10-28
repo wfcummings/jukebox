@@ -1,8 +1,10 @@
 import express from "express";
 const app = express();
 export default app;
+import morgan from "morgan";
 
 app.use(express.json());
+app.use(morgan("dev"));
 
 import playlistsRouter from "#api/playlists";
 app.use("/playlists", playlistsRouter);
