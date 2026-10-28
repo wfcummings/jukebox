@@ -20,3 +20,14 @@ router.get("/:id", async (req, res) => {
 
   res.send(playlist);
 });
+
+router.post("/", async (req, res) => {
+  if (!req.body) return res.status(400).send("Request body is required.");
+
+  const { name, description } = req.body;
+  if (!name || !description)
+    return res.status(400).send("Request body requires: name, description");
+
+  const file = await createPlaylist(name, description);
+  res.status(201).send(playlist);
+});
